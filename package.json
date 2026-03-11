@@ -2,9 +2,13 @@
   "name": "gitpilot",
   "displayName": "gitpilot",
   "description": "AI 기반 Git 워크플로우 자동화 — 커밋 메시지, PR 설명, 브랜치명, 코드 리뷰를 VS Code 안에서 자동 생성",
-  "version": "0.1.0",
-  "engines": { "vscode": "^1.85.0" },
-  "categories": ["Other"],
+  "version": "0.1.3",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
   "activationEvents": [],
   "main": "./dist/extension.js",
   "contributes": {
@@ -28,6 +32,10 @@
       {
         "command": "gitpilot.reviewSelection",
         "title": "gitpilot: 선택 코드 리뷰"
+      },
+      {
+        "command": "gitpilot.switchLLMProvider",
+        "title": "gitpilot: LLM 제공자 전환"
       }
     ],
     "menus": {
@@ -50,7 +58,11 @@
       "properties": {
         "gitpilot.llm.provider": {
           "type": "string",
-          "enum": ["ollama", "claude", "openai"],
+          "enum": [
+            "ollama",
+            "claude",
+            "openai"
+          ],
           "default": "ollama",
           "description": "LLM 제공자"
         },
@@ -69,9 +81,17 @@
           "default": "",
           "description": "API 키 (Claude/OpenAI 사용 시)"
         },
+        "gitpilot.llm.timeoutMs": {
+          "type": "number",
+          "default": 600000,
+          "description": "LLM 요청 타임아웃(ms)"
+        },
         "gitpilot.language": {
           "type": "string",
-          "enum": ["ko", "en"],
+          "enum": [
+            "ko",
+            "en"
+          ],
           "default": "ko",
           "description": "출력 언어"
         }
@@ -82,7 +102,8 @@
     "vscode:prepublish": "npm run build",
     "build": "esbuild src/extension.ts --bundle --outfile=dist/extension.js --external:vscode --format=cjs --platform=node",
     "dev": "npm run build -- --watch",
-    "package": "vsce package"
+    "package": "vsce package",
+    "release": "node scripts/release.js"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
