@@ -1,0 +1,94 @@
+{
+  "name": "gitpilot",
+  "displayName": "gitpilot",
+  "description": "AI 기반 Git 워크플로우 자동화 — 커밋 메시지, PR 설명, 브랜치명, 코드 리뷰를 VS Code 안에서 자동 생성",
+  "version": "0.1.0",
+  "engines": { "vscode": "^1.85.0" },
+  "categories": ["Other"],
+  "activationEvents": [],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "gitpilot.generateCommitMessage",
+        "title": "gitpilot: 커밋 메시지 생성"
+      },
+      {
+        "command": "gitpilot.generatePRDescription",
+        "title": "gitpilot: PR 설명 생성"
+      },
+      {
+        "command": "gitpilot.suggestBranchName",
+        "title": "gitpilot: 브랜치명 제안"
+      },
+      {
+        "command": "gitpilot.reviewChanges",
+        "title": "gitpilot: 변경사항 코드 리뷰"
+      },
+      {
+        "command": "gitpilot.reviewSelection",
+        "title": "gitpilot: 선택 코드 리뷰"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "gitpilot.reviewSelection",
+          "when": "editorHasSelection",
+          "group": "gitpilot"
+        }
+      ],
+      "scm/title": [
+        {
+          "command": "gitpilot.generateCommitMessage",
+          "group": "navigation"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "gitpilot",
+      "properties": {
+        "gitpilot.llm.provider": {
+          "type": "string",
+          "enum": ["ollama", "claude", "openai"],
+          "default": "ollama",
+          "description": "LLM 제공자"
+        },
+        "gitpilot.llm.model": {
+          "type": "string",
+          "default": "llama3.2:3b",
+          "description": "사용할 모델명"
+        },
+        "gitpilot.llm.baseUrl": {
+          "type": "string",
+          "default": "http://localhost:11434",
+          "description": "Ollama 서버 주소"
+        },
+        "gitpilot.llm.apiKey": {
+          "type": "string",
+          "default": "",
+          "description": "API 키 (Claude/OpenAI 사용 시)"
+        },
+        "gitpilot.language": {
+          "type": "string",
+          "enum": ["ko", "en"],
+          "default": "ko",
+          "description": "출력 언어"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run build",
+    "build": "esbuild src/extension.ts --bundle --outfile=dist/extension.js --external:vscode --format=cjs --platform=node",
+    "dev": "npm run build -- --watch",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/vscode": "^1.85.0",
+    "@vscode/vsce": "2.22.0",
+    "esbuild": "^0.24.0",
+    "typescript": "^5.5.3"
+  }
+}

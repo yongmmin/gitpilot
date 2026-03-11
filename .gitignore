@@ -1,0 +1,7 @@
+node_modules/
+dist/
+*.vsix
+.vscode/settings.json
+.env
+out/
+*.js.map
