@@ -1,6 +1,7 @@
 import * as vscode from 'vscode'
 import { completeLLM } from '../services/llm'
 import { checkoutBranch } from '../services/git'
+import { showLLMError } from '../utils/errorHandler'
 
 const SYSTEM = `당신은 시니어 개발자입니다. 작업 설명을 받아서 Git 브랜치명을 제안합니다.
 
@@ -65,7 +66,7 @@ export async function suggestBranchName() {
         }
       } catch (err) {
         const msg = err instanceof Error ? err.message : String(err)
-        vscode.window.showErrorMessage(`gitpilot 오류: ${msg}`)
+        await showLLMError(msg)
       }
     }
   )

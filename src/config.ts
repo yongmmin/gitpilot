@@ -5,6 +5,7 @@ export interface LLMConfig {
   model: string
   baseUrl: string
   apiKey: string
+  timeoutMs: number
   language: 'ko' | 'en'
 }
 
@@ -15,6 +16,7 @@ export function getConfig(): LLMConfig {
     model: cfg.get('llm.model') ?? 'llama3.2:3b',
     baseUrl: cfg.get('llm.baseUrl') ?? 'http://localhost:11434',
     apiKey: cfg.get('llm.apiKey') ?? '',
+    timeoutMs: cfg.get('llm.timeoutMs') ?? 600000,
     language: cfg.get('language') ?? 'ko',
   }
 }

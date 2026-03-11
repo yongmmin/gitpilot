@@ -18,11 +18,12 @@ gitpilot은 실제 `git diff`를 읽어 이 작업들을 자동화하고, 개발
 | 영역 | 기술 | 비고 |
 |---|---|---|
 | 익스텐션 | VS Code Extension API (TypeScript) | Webview, SCM, QuickPick, StatusBar |
-| LLM | Ollama (`llama3.2:3b`) | 로컬 실행, 무료, API 키 불필요 |
+| LLM | Ollama / Claude / OpenAI | 프로바이더 선택 가능 |
 | Git 연동 | Node.js `child_process` | diff, log, branch 추출 |
 | 빌드 | esbuild | 단일 파일 번들 |
+| Node.js | v20 (nvm) | `nvm use 20` 필수 — vsce 패키징 시 v18 이하에서 오류 발생 |
 
-> **LLM 확장성:** LLM 레이어는 프로바이더 인터페이스로 추상화되어 있어 Claude, OpenAI 등으로 전환 시 설정값만 변경하면 된다. 코드 수정 불필요.
+> **LLM 확장성:** LLM 레이어는 프로바이더 인터페이스로 추상화되어 있어 Ollama / Claude / OpenAI 전환 시 설정값만 변경하면 된다. 코드 수정 불필요.
 
 ---
 
@@ -89,11 +90,15 @@ VS Code 커맨드
 - [x] 팀 내부 설치 가이드
 - [x] README + plan.md
 
-### Phase 4. 고도화 (예정)
+### Phase 4. UI/UX 개선 ✅
+- [x] StatusBar 클릭 → LLM 제공자/모델 선택 UI (`switchProvider` 커맨드)
+- [x] 제공자 전환 시 API 키 입력창 항상 표시 (기존 키 덮어쓰기 지원)
+- [x] LLM 오류 발생 시 "제공자 변경" 버튼이 포함된 알림 표시 (`utils/errorHandler.ts`)
+- [x] 오류 유형별 친화적 메시지 (429 Rate Limit, Unauthorized, 연결 실패 등)
+
+### Phase 5. 고도화 (예정)
 - [ ] 실사용 피드백 기반 프롬프트 품질 개선
 - [ ] `prepare-commit-msg` git hook 연동
-- [ ] 설정 UI 추가 (JSON 직접 편집 없이 프로바이더 전환)
-- [ ] Claude API 전환으로 출력 품질 향상
 
 ---
 

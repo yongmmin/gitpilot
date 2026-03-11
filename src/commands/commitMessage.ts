@@ -1,6 +1,7 @@
 import * as vscode from 'vscode'
 import { getStagedDiff, getFullDiff, hasStagedChanges } from '../services/git'
 import { completeLLM } from '../services/llm'
+import { showLLMError } from '../utils/errorHandler'
 
 const SYSTEM = `당신은 시니어 개발자입니다. git diff를 분석해서 Conventional Commits 형식의 커밋 메시지를 작성합니다.
 
@@ -46,7 +47,7 @@ export async function generateCommitMessage() {
         }
       } catch (err) {
         const msg = err instanceof Error ? err.message : String(err)
-        vscode.window.showErrorMessage(`gitpilot 오류: ${msg}`)
+        await showLLMError(msg)
       }
     }
   )

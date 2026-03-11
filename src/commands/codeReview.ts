@@ -1,6 +1,7 @@
 import * as vscode from 'vscode'
 import { getFullDiff } from '../services/git'
 import { streamLLM } from '../services/llm'
+import { showLLMError } from '../utils/errorHandler'
 
 const SYSTEM = `당신은 시니어 개발자입니다. 코드를 리뷰하고 개선점을 제안합니다.
 
@@ -81,6 +82,7 @@ async function streamToPanel(panel: vscode.WebviewPanel, prompt: string) {
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err)
     panel.webview.html = getBaseHtml(`❌ 오류: ${msg}`)
+    await showLLMError(msg)
   }
 }
 
